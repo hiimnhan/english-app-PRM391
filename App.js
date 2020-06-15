@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -15,12 +15,23 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
+import Loading from './app/components/shared/Loading';
 
 const App = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={styles.container} />
+      <SafeAreaView style={styles.container}>
+        {isLoading ? <Loading /> : <Text>Hello</Text>}
+      </SafeAreaView>
     </>
   );
 };
