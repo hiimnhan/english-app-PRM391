@@ -15,22 +15,14 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-import Loading from './app/components/shared/Loading';
+import Topic from './app/pages/Topic';
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.container}>
-        {isLoading ? <Loading /> : <Text>Hello</Text>}
+        <Topic />
       </SafeAreaView>
     </>
   );
