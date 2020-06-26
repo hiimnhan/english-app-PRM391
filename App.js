@@ -31,6 +31,9 @@ const App = () => {
       <SafeAreaView style={styles.container}>
         <NavigationContainer>
           <Drawer.Navigator
+            drawerStyle={{
+              backgroundColor: 'transparent',
+            }}
             drawerContent={props => <DrawerContent {...props} />}>
             <Drawer.Screen name="Topic" component={TopicStackScreen} />
             <Drawer.Screen name="Screen1" component={Screen1} />

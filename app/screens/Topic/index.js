@@ -32,7 +32,7 @@ export default function Topic({ navigation }) {
     },
     {
       id: 4,
-      title: 'Animal',
+      title: 'Animals',
       value: 'animal',
       image: require('../../assets/images/animal.png'),
     },
@@ -132,7 +132,8 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   topic: {
-    margin: 20,
+    marginHorizontal: 20,
+    marginVertical: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },

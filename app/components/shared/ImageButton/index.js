@@ -35,6 +35,6 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     resizeMode: 'stretch',
-    borderRadius: 10,
+    borderRadius: 30,
   },
 });

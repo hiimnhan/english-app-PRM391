@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Avatar, Title, Caption, Drawer } from 'react-native-paper';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
+import colors from '../../assets/styles/colors';
 
 export function DrawerContent(props) {
   return (
@@ -10,6 +11,7 @@ export function DrawerContent(props) {
         flex: 1,
         borderTopRightRadius: 10,
         borderBottomRightRadius: 10,
+        backgroundColor: colors.white,
       }}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
