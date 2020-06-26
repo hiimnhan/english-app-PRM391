@@ -15,14 +15,28 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-import Topic from './app/pages/Topic';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import Topic from './app/screens/Topic';
+import Screen1 from './app/screens/draft/Screen1';
+import Screen2 from './app/screens/draft/Screen2';
+import { DrawerContent } from './app/components/DrawerContent';
+import TopicStackScreen from './app/screens/stacks/TopicStackScreen';
 
+const Drawer = createDrawerNavigator();
 const App = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.container}>
-        <Topic />
+        <NavigationContainer>
+          <Drawer.Navigator
+            drawerContent={props => <DrawerContent {...props} />}>
+            <Drawer.Screen name="Topic" component={TopicStackScreen} />
+            <Drawer.Screen name="Screen1" component={Screen1} />
+            <Drawer.Screen name="Screen2" component={Screen2} />
+          </Drawer.Navigator>
+        </NavigationContainer>
       </SafeAreaView>
     </>
   );

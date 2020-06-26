@@ -1,11 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
-import Dropdown from '../../components/shared/Dropdown';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 import ImageButton from '../../components/shared/ImageButton';
 import colors from '../../assets/styles/colors';
-// import result from './mockData';
-import mockLevel from './level.json';
-export default function Topic() {
+import menuIcon from '../../assets/icons/menu.png';
+export default function Topic({ navigation }) {
   const result = [
     {
       id: 1,
@@ -27,9 +32,9 @@ export default function Topic() {
     },
     {
       id: 4,
-      title: 'Computer',
-      value: 'computer',
-      image: require('../../assets/images/computer.png'),
+      title: 'Animal',
+      value: 'animal',
+      image: require('../../assets/images/animal.png'),
     },
     {
       id: 5,
@@ -39,9 +44,9 @@ export default function Topic() {
     },
     {
       id: 6,
-      title: 'Hobbies',
-      value: 'hobby',
-      image: require('../../assets/images/hobby.png'),
+      title: 'Flowers',
+      value: 'flower',
+      image: require('../../assets/images/flower.png'),
     },
     {
       id: 7,
@@ -63,13 +68,13 @@ export default function Topic() {
     },
   ];
 
-  console.log(result[0].title);
-
   return (
     <View style={styles.container}>
-      <View style={styles.dropdown}>
-        <Dropdown items={mockLevel.level} />
-      </View>
+      <TouchableOpacity
+        style={styles.menuIcon}
+        onPress={() => navigation.openDrawer()}>
+        <Image style={styles.icon} source={menuIcon} />
+      </TouchableOpacity>
       <Image
         source={require('../../assets/images/idea.png')}
         style={styles.imageHeader}
@@ -97,16 +102,23 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: colors.white,
   },
-  dropdown: {
-    width: 130,
+  menuIcon: {
+    width: 30,
     height: 30,
-    marginTop: 400,
+    position: 'absolute',
+    top: 10,
+    left: 20,
     alignSelf: 'flex-start',
-    marginLeft: 20,
+    marginLeft: 10,
+  },
+  icon: {
+    width: 30,
+    height: 30,
   },
   imageHeader: {
-    marginTop: 100,
+    marginTop: 400,
     width: 253,
     height: 190,
   },
@@ -123,5 +135,8 @@ const styles = StyleSheet.create({
     margin: 20,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  topicTitle: {
+    color: colors.grayText,
   },
 });
