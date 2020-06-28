@@ -12,6 +12,7 @@ const colors = {
   greenNormal: '#48C690',
   red: '#EB002B',
   yellow: '#FCA92E',
+  pink: '#E91E63',
 };
 
 export default colors;
