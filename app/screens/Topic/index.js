@@ -1,3 +1,5 @@
+/* eslint-disable arrow-parens */
+/* eslint-disable global-require */
 import React from 'react';
 import {
   StyleSheet,
@@ -10,6 +12,7 @@ import {
 import ImageButton from '../../components/shared/ImageButton';
 import colors from '../../assets/styles/colors';
 import menuIcon from '../../assets/icons/menu.png';
+
 export default function Topic({ navigation }) {
   const result = [
     {
@@ -72,7 +75,8 @@ export default function Topic({ navigation }) {
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.menuIcon}
-        onPress={() => navigation.openDrawer()}>
+        onPress={() => navigation.openDrawer()}
+      >
         <Image style={styles.icon} source={menuIcon} />
       </TouchableOpacity>
       <Image
@@ -109,7 +113,8 @@ const styles = StyleSheet.create({
     height: 30,
     position: 'absolute',
     top: 10,
-    left: 20,
+    // adjust for Android.
+    left: 10,
     alignSelf: 'flex-start',
     marginLeft: 10,
   },

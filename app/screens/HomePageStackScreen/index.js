@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Topic from '../../Topic';
+import HomePage from '../HomePage';
 
 const Stack = createStackNavigator();
 
-export default function TopicStackScreen({ navigation }) {
+const index = ({ navigation }) => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -13,9 +13,11 @@ export default function TopicStackScreen({ navigation }) {
       }}
       mode="modal"
     >
-      <Stack.Screen name="Topic" component={Topic} />
+      <Stack.Screen name="HomePage" component={HomePage} />
     </Stack.Navigator>
   );
-}
+};
 
 const styles = StyleSheet.create({});
+
+export default index;
