@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     height: 64,
     padding: 10,
     marginBottom: 20,
-    backgroundColor: '#4F42D8',
+    backgroundColor: '#fff',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -35,5 +35,6 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     resizeMode: 'stretch',
+    borderRadius: 30,
   },
 });
