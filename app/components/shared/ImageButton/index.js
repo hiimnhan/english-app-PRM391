@@ -2,11 +2,11 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 
 export default function ImageButton(props) {
-  const { image, text } = props;
+  const { image, imageStyle } = props;
   return (
-    <TouchableOpacity style={styles.touchable}>
+    <TouchableOpacity style={styles.touchable} {...props} activeOpacity={1}>
       <View>
-        <Image source={image} style={styles.image} />
+        <Image source={image} style={[styles.image, imageStyle]} />
       </View>
     </TouchableOpacity>
   );
