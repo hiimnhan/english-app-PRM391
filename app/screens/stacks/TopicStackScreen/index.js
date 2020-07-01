@@ -1,21 +1,26 @@
+/* eslint-disable arrow-body-style */
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Topic from '../../Topic';
+import HomePage from '../../HomePage';
+import LoginPage from '../../LoginPage';
 
 const Stack = createStackNavigator();
 
-export default function TopicStackScreen({ navigation }) {
+const index = () => {
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}
       mode="modal"
+      initialRouteName="HomePage"
     >
+      <Stack.Screen name="HomePage" component={HomePage} />
+      <Stack.Screen name="LoginPage" component={LoginPage} />
       <Stack.Screen name="Topic" component={Topic} />
     </Stack.Navigator>
   );
-}
+};
 
-const styles = StyleSheet.create({});
+export default index;

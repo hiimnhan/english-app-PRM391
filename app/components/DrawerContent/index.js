@@ -1,8 +1,12 @@
+/* eslint-disable object-curly-newline */
+/* eslint-disable import/prefer-default-export */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/jsx-closing-bracket-location */
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Avatar, Title, Caption, Drawer } from 'react-native-paper';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
-import colors from '../../assets/styles/colors';
+import Colors from '../../assets/styles/colors';
 
 export function DrawerContent(props) {
   return (
@@ -11,7 +15,7 @@ export function DrawerContent(props) {
         flex: 1,
         borderTopRightRadius: 10,
         borderBottomRightRadius: 10,
-        backgroundColor: colors.white,
+        backgroundColor: Colors.white,
       }}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
@@ -88,7 +92,7 @@ const styles = StyleSheet.create({
   },
   bottomDrawerSection: {
     marginBottom: 15,
-    borderTopColor: '#f4f4f4',
+    borderTopColor: Colors.opalescent,
     borderTopWidth: 1,
   },
   preference: {

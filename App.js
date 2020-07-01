@@ -17,11 +17,9 @@ import {
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-// import Topic from './app/screens/Topic';
+import { DrawerContent } from './app/components/DrawerContent';
 import Screen1 from './app/screens/draft/Screen1';
 import Screen2 from './app/screens/draft/Screen2';
-import HomePage from './app/screens/HomePage/index';
-import { DrawerContent } from './app/components/DrawerContent';
 import TopicStackScreen from './app/screens/stacks/TopicStackScreen';
 
 const Drawer = createDrawerNavigator();
@@ -39,8 +37,7 @@ const App = () => {
             }}
             drawerContent={(props) => <DrawerContent {...props} />}
           >
-            <Drawer.Screen name="HomePage" component={HomePage} />
-            <Drawer.Screen name="Topic" component={TopicStackScreen} />
+            <Drawer.Screen name="TopicStackScreen" component={TopicStackScreen} />
             <Drawer.Screen name="Screen1" component={Screen1} />
             <Drawer.Screen name="Screen2" component={Screen2} />
           </Drawer.Navigator>

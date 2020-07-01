@@ -112,9 +112,9 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     position: 'absolute',
-    top: 10,
     // adjust for Android.
-    left: 10,
+    top: 12,
+    left: 5,
     alignSelf: 'flex-start',
     marginLeft: 10,
   },

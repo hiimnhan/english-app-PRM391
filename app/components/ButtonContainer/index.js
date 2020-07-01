@@ -1,12 +1,19 @@
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable arrow-body-style */
+/* eslint-disable arrow-parens */
 import React from 'react';
-import { StyleSheet, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 
 const buttonContainer = props => {
   return (
-    <View style={{ ...props.style, ...styles.container }}>
-      <TouchableHighlight>
+    <View>
+      <TouchableOpacity
+        {...props}
+        style={{ ...props.style, ...styles.container }}
+      >
         {props.children}
-      </TouchableHighlight>
+      </TouchableOpacity>
     </View>
   );
 };

@@ -1,3 +1,5 @@
+/* eslint-disable global-require */
+/* eslint-disable arrow-body-style */
 import React from 'react';
 import {
   StyleSheet,
@@ -6,11 +8,12 @@ import {
   Image,
 } from 'react-native';
 import Colors from '../../assets/styles/colors';
-import ButtonPattern from '../../components/ButtonContainer';
+import ButtonContainer from '../../components/ButtonContainer';
 
-const HomePage = () => {
+const HomePage = ({ navigation }) => {
   return (
     <View style={styles.container}>
+      {/* Image anh Logo */}
       <View style={styles.bigImage}>
         <Image
           source={require('../../assets/images/HomePageImage.png')}
@@ -25,13 +28,20 @@ const HomePage = () => {
           />
         </View>
       </View>
+      {/* Login and registration Button */}
       <View style={styles.buttonContainer}>
-        <ButtonPattern style={styles.loginButtonContainer}>
+        <ButtonContainer
+          style={styles.loginButtonContainer}
+          onPress={() => navigation.navigate('LoginPage')}
+        >
           <Text style={styles.loginText}>LOGIN</Text>
-        </ButtonPattern>
-        <ButtonPattern style={styles.registrationButtonContainer}>
+        </ButtonContainer>
+        <ButtonContainer
+          style={styles.registrationButtonContainer}
+          onPress={() => console.log('Registration')}
+        >
           <Text style={styles.registrationText}>REGISTRATION</Text>
-        </ButtonPattern>
+        </ButtonContainer>
       </View>
     </View>
   );
@@ -76,7 +86,7 @@ const styles = StyleSheet.create({
   registrationButtonContainer: {
     left: '17%',
     top: '5%',
-    backgroundColor: Colors.grayText,
+    backgroundColor: Colors.white,
     borderWidth: 2.5,
     paddingTop: 10,
   },
