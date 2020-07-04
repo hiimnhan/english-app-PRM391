@@ -1,36 +1,39 @@
+/* eslint-disable arrow-body-style */
 /* eslint-disable object-curly-newline */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/jsx-closing-bracket-location */
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Avatar, Title, Caption, Drawer } from 'react-native-paper';
+import { View, StyleSheet, Image } from 'react-native';
+import {
+  Avatar,
+  Title,
+  Caption,
+  Drawer,
+  Paragraph,
+  Text,
+  TouchableRipple,
+  Switch,
+} from 'react-native-paper';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import Colors from '../../assets/styles/colors';
+import Arrow from '../../assets/icons/arrow.svg';
 
-export function DrawerContent(props) {
+const index = (props) => {
   return (
-    <View
-      style={{
-        flex: 1,
-        borderTopRightRadius: 10,
-        borderBottomRightRadius: 10,
-        backgroundColor: Colors.white,
-      }}>
+    <View style={styles.container}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
-          <View style={styles.userInfoSection}>
-            <View style={{ flexDirection: 'row', marginTop: 15 }}>
-              <Avatar.Image
-                source={{
-                  uri: 'https://api.adorable.io/avatars/50/abott@adorable.png',
-                }}
-                size={50}
-              />
-              <View style={{ marginLeft: 15, flexDirection: 'column' }}>
-                <Title style={styles.title}>John Doe</Title>
-                <Caption style={styles.caption}>@j_doe</Caption>
-              </View>
+          <View style={styles.userContainer}>
+            <Avatar.Image
+              source={{
+                uri: 'https://api.adorable.io/avatars/50/abott@adorable.png',
+              }}
+              size={50}
+            />
+            <View style={styles.userInfo}>
+              <Title style={styles.title}>John Doe</Title>
+              <Caption style={styles.caption}>@j_doe</Caption>
             </View>
           </View>
 
@@ -51,18 +54,37 @@ export function DrawerContent(props) {
         </View>
       </DrawerContentScrollView>
       <Drawer.Section style={styles.bottomDrawerSection}>
-        <DrawerItem label="Sign Out" />
+        <Image style={styles.icon} source={Arrow} />
+        <DrawerItem
+          label="Sign Out"
+        />
       </Drawer.Section>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    backgroundColor: Colors.white,
+  },
   drawerContent: {
     flex: 1,
   },
-  userInfoSection: {
+  userContainer: {
     paddingLeft: 20,
+    flexDirection: 'row',
+    marginTop: 15,
+  },
+  userInfo: {
+    marginLeft: 15,
+    flexDirection: 'column',
+  },
+  icon: {
+    width: 20,
+    height: 20,
   },
   title: {
     fontSize: 16,
@@ -102,3 +124,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
 });
+
+export default index;

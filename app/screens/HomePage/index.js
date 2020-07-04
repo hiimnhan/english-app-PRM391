@@ -6,13 +6,18 @@ import {
   Text,
   View,
   Image,
+  StatusBar,
 } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import Colors from '../../assets/styles/colors';
 import ButtonContainer from '../../components/ButtonContainer';
 
 const HomePage = ({ navigation }) => {
   return (
     <View style={styles.container}>
+      <StatusBar
+        barStyle="light-content"
+      />
       {/* Image anh Logo */}
       <View style={styles.bigImage}>
         <Image
@@ -20,13 +25,13 @@ const HomePage = ({ navigation }) => {
           resizeMode="contain"
           style={styles.homePageImage}
         />
-        <View style={styles.logoImage}>
-          <Image
-            source={require('../../assets/images/Enlavoka.png')}
-            resizeMode="contain"
-            style={styles.image}
-          />
-        </View>
+        <Animatable.Image
+          animation="rubberBand"
+          duration={3000}
+          source={require('../../assets/images/Enlavoka.png')}
+          resizeMode="contain"
+          style={styles.logoImage}
+        />
       </View>
       {/* Login and registration Button */}
       <View style={styles.buttonContainer}>
@@ -37,10 +42,10 @@ const HomePage = ({ navigation }) => {
           <Text style={styles.loginText}>LOGIN</Text>
         </ButtonContainer>
         <ButtonContainer
-          style={styles.registrationButtonContainer}
+          style={styles.signUpButtonContainer}
           onPress={() => console.log('Registration')}
         >
-          <Text style={styles.registrationText}>REGISTRATION</Text>
+          <Text style={styles.signUpText}>SIGN UP</Text>
         </ButtonContainer>
       </View>
     </View>
@@ -53,9 +58,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     flexDirection: 'column',
   },
-  image: {
-    top: 0,
-    left: 0,
+  logoImage: {
+    top: 310,
+    left: 49,
     width: 196,
     height: 188,
     position: 'absolute',
@@ -66,24 +71,17 @@ const styles = StyleSheet.create({
     marginTop: 34,
     marginLeft: 60,
   },
-  logoImage: {
-    top: 304,
-    left: 49,
-    width: 196,
-    height: 188,
-    position: 'absolute',
-  },
   homePageImage: {
-    top: 0,
+    top: -20,
     left: 0,
     width: 295,
     height: 315,
     position: 'absolute',
   },
   buttonContainer: {
-    paddingTop: 20,
+    top: '5%',
   },
-  registrationButtonContainer: {
+  signUpButtonContainer: {
     left: '17%',
     top: '5%',
     backgroundColor: Colors.white,
@@ -100,7 +98,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: Colors.white,
   },
-  registrationText: {
+  signUpText: {
     textAlign: 'center',
     color: Colors.black,
   },

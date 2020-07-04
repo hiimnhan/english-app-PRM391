@@ -1,19 +1,81 @@
+/* eslint-disable operator-linebreak */
+/* eslint-disable react/jsx-wrap-multilines */
+/* eslint-disable arrow-parens */
+/* eslint-disable react/jsx-boolean-value */
 /* eslint-disable global-require */
 /* eslint-disable arrow-body-style */
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import {
   StyleSheet,
   Text,
   View,
-  Image
+  TextInput,
+  Image,
+  TouchableOpacity,
+  StatusBar,
 } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import * as Animatable from 'react-native-animatable';
+import { AuthContext } from '../../components/Context';
+import User from '../../assets/icons/user.png';
+import Tick from '../../assets/icons/tick.png';
+import Lock from '../../assets/icons/padlock.png';
+import VisibleEye from '../../assets/icons/visible-eye.png';
+import HiddenEye from '../../assets/icons/hidden-eye.png';
 import Colors from '../../assets/styles/colors';
 import ButtonContainer from '../../components/ButtonContainer';
 
 const index = () => {
+  const [data, setData] = useState({
+    email: '',
+    password: '',
+    check_textInputChange: false,
+    secureTextEntry: true,
+  });
+
+  const { signIn } = useContext(AuthContext);
+
+  const textInputChange = val => {
+    if (val.length !== 0) {
+      setData({
+        ...data,
+        email: val,
+        check_textInputChange: true,
+      });
+    } else {
+      setData({
+        ...data,
+        email: val,
+        check_textInputChange: false,
+      });
+    }
+  };
+
+  const handlePasswordChange = val => {
+    if (val.length !== 0) {
+      setData({
+        ...data,
+        password: val,
+      });
+    } else {
+      setData({
+        ...data,
+        password: val,
+      });
+    }
+  };
+
+  const updatesecureTextEntry = () => {
+    setData({
+      ...data,
+      secureTextEntry: !data.secureTextEntry,
+    });
+  };
+
   return (
     <View style={styles.container}>
+      <StatusBar
+        barStyle="light-content"
+      />
       <Image
         source={require('../../assets/images/learning1.png')}
         style={styles.image}
@@ -22,18 +84,82 @@ const index = () => {
         <Text style={styles.titleText}>LOGIN</Text>
       </View>
       <View style={styles.formContainer}>
-        <Text>Username or email</Text>
+        {/* Email */}
+        <Text style={styles.formText}>Email</Text>
         <View style={styles.action}>
-          <FontAwesome
-            name="user-o"
-            color={Colors.black}
-            size={20}
+          <Image
+            style={{ ...styles.icon, ...styles.user }}
+            source={User}
           />
+          <TextInput
+            style={styles.textInput}
+            placeholder="Your email"
+            onChangeText={val => textInputChange(val)}
+          />
+          {data.check_textInputChange ?
+            <Animatable.View
+              animation="bounceIn"
+              duration={1500}
+            >
+              <Image
+                style={{ ...styles.icon, ...styles.tick }}
+                source={Tick}
+              />
+            </Animatable.View>
+            :
+            <Animatable.View
+              animation="bounceOut"
+              duration={500}
+            >
+              <Image
+                style={{ ...styles.icon, ...styles.tick }}
+                source={Tick}
+              />
+            </Animatable.View>}
+        </View>
+        {/* Password */}
+        <Text style={styles.formText}>Password</Text>
+        <View style={styles.action}>
+          <Image
+            style={{ ...styles.icon, ...styles.lock }}
+            source={Lock}
+          />
+          <TextInput
+            style={styles.textInput}
+            placeholder="Your password"
+            secureTextEntry={data.secureTextEntry}
+            onChangeText={val => handlePasswordChange(val)}
+          />
+          <TouchableOpacity
+            onPress={updatesecureTextEntry}
+          >
+            {data.secureTextEntry ?
+              <Image
+                style={{ ...styles.icon, ...styles.eye }}
+                source={HiddenEye}
+              /> :
+              <Image
+                style={{ ...styles.icon, ...styles.eye }}
+                source={VisibleEye}
+              />}
+          </TouchableOpacity>
         </View>
       </View>
-      <ButtonContainer style={styles.loginButtonContainer}>
-        <Text style={styles.loginText}>LET'S GO!</Text>
-      </ButtonContainer>
+      {/* Button */}
+      <View>
+        <ButtonContainer
+          style={styles.loginButtonContainer}
+          onPress={() => signIn()}
+        >
+          <Text style={styles.loginText}>LET'S GO!</Text>
+        </ButtonContainer>
+        <ButtonContainer
+          style={styles.signUpButtonContainer}
+          onPress={() => console.log('Sign up')}
+        >
+          <Text style={styles.signUpText}>Don't have account? Sign up!</Text>
+        </ButtonContainer>
+      </View>
     </View>
   );
 };
@@ -50,6 +176,22 @@ const styles = StyleSheet.create({
     height: 315,
     position: 'absolute',
   },
+  icon: {
+    width: 20,
+    height: 20,
+  },
+  user: {
+    top: '3.5%',
+  },
+  lock: {
+    top: '3.75%',
+  },
+  tick: {
+    top: '30%',
+  },
+  eye: {
+    top: '30%',
+  },
   titleText: {
     fontSize: 55,
     color: Colors.darkGray,
@@ -59,17 +201,45 @@ const styles = StyleSheet.create({
     left: '32%',
   },
   formContainer: {
-
+    paddingHorizontal: 50,
+    top: '35%',
+  },
+  action: {
+    flexDirection: 'row',
+    marginTop: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.darkGray,
+    marginBottom: 30,
+  },
+  textInput: {
+    flex: 1,
+    paddingLeft: 15,
+    fontSize: 18,
+    color: Colors.black,
+  },
+  formText: {
+    fontSize: 14,
   },
   loginButtonContainer: {
-    top: '1000%',
+    top: '500%',
     left: '18%',
     backgroundColor: Colors.pink,
     paddingTop: 12,
   },
+  signUpButtonContainer: {
+    top: '502%',
+    left: '18%',
+    backgroundColor: Colors.white,
+    borderWidth: 2.5,
+    paddingTop: 10,
+  },
   loginText: {
     textAlign: 'center',
     color: Colors.white,
+  },
+  signUpText: {
+    textAlign: 'center',
+    color: Colors.black,
   },
 });
 
