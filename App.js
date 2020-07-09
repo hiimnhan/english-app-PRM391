@@ -13,15 +13,11 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-// import Topic from './app/screens/Topic';
-import Screen1 from './app/screens/draft/Screen1';
 import Screen2 from './app/screens/draft/Screen2';
+import Screen1 from './app/screens/draft/Screen1';
 import HomePage from './app/screens/HomePage/index';
 import { DrawerContent } from './app/components/DrawerContent';
 import TopicStackScreen from './app/screens/stacks/TopicStackScreen';
-import ProgressBar from './app/components/ProgressBar';
-import colors from './app/assets/styles/colors';
-import VocabularyScreen from './app/screens/VocabularyScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -30,7 +26,7 @@ const App = () => {
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.container}>
-        {/* <NavigationContainer>
+        <NavigationContainer>
           <Drawer.Navigator
             drawerStyle={{
               backgroundColor: 'transparent',
@@ -41,8 +37,7 @@ const App = () => {
             <Drawer.Screen name="Screen1" component={Screen1} />
             <Drawer.Screen name="Screen2" component={Screen2} />
           </Drawer.Navigator>
-        </NavigationContainer> */}
-        <VocabularyScreen />
+        </NavigationContainer>
       </SafeAreaView>
     </>
   );
