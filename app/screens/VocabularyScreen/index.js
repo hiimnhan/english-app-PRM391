@@ -15,8 +15,6 @@ import colors from '../../assets/styles/colors';
 import basketball from '../../assets/images/basketball.jpg';
 
 import home1 from '../../assets/icons/home1.png';
-import likeNormal from '../../assets/icons/like-normal.png';
-import likeGreen from '../../assets/icons/like-green.png';
 import backward from '../../assets/icons/arrow-back.png';
 import forward from '../../assets/icons/arrow-go.png';
 
@@ -25,8 +23,9 @@ export default function VocabularyScreen(props) {
     word = 'Basketball',
     spelling = 'ˈbɑːskɪtbɔːl',
     title = 'Sports',
-    current = 10,
+    current = 20,
     total = 20,
+    navigation,
   } = props;
 
   const [isChecked, setIsChecked] = useState(false);
@@ -43,7 +42,10 @@ export default function VocabularyScreen(props) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.buttonBack}>
+        <TouchableOpacity
+          style={styles.buttonBack}
+          activeOpacity={1}
+          onPress={() => navigation.navigate('Topic')}>
           <Image source={home1} style={styles.buttonImage} />
         </TouchableOpacity>
         <Text style={styles.title}>{title}</Text>
@@ -89,13 +91,18 @@ export default function VocabularyScreen(props) {
         </Animated.View>
       </View>
       <View style={styles.buttonsContainer}>
-        <ImageButton image={backward} imageStyle={{ width: 48, height: 48 }} />
         <ImageButton
-          onPress={() => setIsChecked(() => !isChecked)}
-          image={isChecked ? likeNormal : likeGreen}
+          onPress={() => console.log('click back')}
+          image={backward}
+          disabled={current === 1}
           imageStyle={{ width: 48, height: 48 }}
         />
-        <ImageButton image={forward} imageStyle={{ width: 48, height: 48 }} />
+        <ImageButton
+          onPress={() => console.log('click toward')}
+          image={forward}
+          disabled={current === total}
+          imageStyle={{ width: 48, height: 48 }}
+        />
       </View>
     </View>
   );

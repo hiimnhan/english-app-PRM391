@@ -75,8 +75,7 @@ export default function Topic({ navigation }) {
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.menuIcon}
-        onPress={() => navigation.openDrawer()}
-      >
+        onPress={() => navigation.openDrawer()}>
         <Image style={styles.icon} source={menuIcon} />
       </TouchableOpacity>
       <Image
@@ -89,7 +88,10 @@ export default function Topic({ navigation }) {
           data={result}
           renderItem={({ item }) => (
             <View style={styles.topic}>
-              <ImageButton image={item.image} />
+              <ImageButton
+                image={item.image}
+                onPress={() => navigation.navigate('Vocabulary')}
+              />
               <Text style={styles.topicTitle}>{item.title}</Text>
             </View>
           )}
