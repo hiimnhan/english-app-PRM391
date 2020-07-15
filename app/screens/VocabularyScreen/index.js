@@ -1,14 +1,9 @@
-import React, { useState } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Animated,
-  TouchableOpacity,
-} from 'react-native';
+import React, { useState, useRef, useEffect, Fragment } from 'react';
+import { StyleSheet, Text, View, Image, Animated } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import ProgressBar from '../../components/ProgressBar';
 import ImageButton from '../../components/shared/ImageButton';
+import Loading from '../../components/shared/Loading';
 
 import colors from '../../assets/styles/colors';
 
@@ -18,27 +13,56 @@ import home1 from '../../assets/icons/home1.png';
 import backward from '../../assets/icons/arrow-back.png';
 import forward from '../../assets/icons/arrow-go.png';
 
-export default function VocabularyScreen(props) {
-  const {
-    word = 'Basketball',
-    spelling = 'ˈbɑːskɪtbɔːl',
-    title = 'Sports',
-    current = 20,
-    total = 20,
-    navigation,
-  } = props;
+import * as lodash from 'lodash';
 
-  const [isChecked, setIsChecked] = useState(false);
+import { connect } from 'react-redux';
 
+function VocabularyScreen(props) {
+  const { word = {}, loading, navigation } = props;
+  const vocabulary = lodash.get(word, 'vocabulary', '');
+  const spell = lodash.get(word, 'spell', '');
+  const title = lodash.get(word, 'topicOfWord.name', '');
+  const current = lodash.get(word, 'id') % 10;
   const animatedValue = new Animated.Value(0);
+  const total = 20;
+  let aValue = 0;
+  animatedValue.addListener(({ value }) => {
+    aValue = value;
+  });
+  const frontInterpolate = animatedValue.interpolate({
+    inputRange: [0, 180],
+    outputRange: ['0deg', '180deg'],
+  });
+  const backInterpolate = animatedValue.interpolate({
+    inputRange: [0, 180],
+    outputRange: ['180deg', '360deg'],
+  });
 
-  const _start = () => {
-    Animated.timing(animatedValue, {
-      duration: 1000,
-      toValue: 1,
-      useNativeDriver: true,
-    }).start();
+  const frontAnimatedStyle = {
+    transform: [{ rotateY: frontInterpolate }],
   };
+  const backAnimatedStyle = {
+    transform: [{ rotateY: backInterpolate }],
+  };
+
+  const _flipCard = () => {
+    if (aValue >= 90) {
+      Animated.spring(animatedValue, {
+        toValue: 0,
+        friction: 8,
+        tension: 10,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(animatedValue, {
+        toValue: 180,
+        friction: 8,
+        tension: 10,
+        useNativeDriver: true,
+      }).start();
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -55,58 +79,77 @@ export default function VocabularyScreen(props) {
           bgColor={colors.greenNormal}
         />
       </View>
-      <View style={styles.vocabContainer}>
-        <View style={{ zIndex: 22, elevation: 22 }}>
-          <TouchableOpacity
-            style={styles.vocabInner}
-            activeOpacity={1}
-            onPress={() => _start()}>
-            <Image source={basketball} style={styles.imageVocab} />
-          </TouchableOpacity>
-        </View>
-        <Animated.View
+
+      {loading ? (
+        <View
           style={{
-            transform: [
-              {
-                translateY: animatedValue.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, 80],
-                }),
-              },
-            ],
-            backgroundColor: colors.purpleCardVoc,
-            borderBottomLeftRadius: 30,
-            borderBottomRightRadius: 30,
-            height: 136,
-            width: 290,
-            elevation: 1,
-            zIndex: 1,
-            position: 'absolute',
-            top: 240,
-            justifyContent: 'center',
+            height: 520,
+            marginTop: 30,
+            borderRadius: 30,
             alignItems: 'center',
+            justifyContent: 'center',
           }}>
-          <Text style={styles.word}>{word}</Text>
-          <Text style={styles.spelling}>{spelling}</Text>
-        </Animated.View>
-      </View>
-      <View style={styles.buttonsContainer}>
-        <ImageButton
-          onPress={() => console.log('click back')}
-          image={backward}
-          disabled={current === 1}
-          imageStyle={{ width: 48, height: 48 }}
-        />
-        <ImageButton
-          onPress={() => console.log('click toward')}
-          image={forward}
-          disabled={current === total}
-          imageStyle={{ width: 48, height: 48 }}
-        />
-      </View>
+          <Loading />
+        </View>
+      ) : (
+        <Fragment>
+          <View style={styles.vocabContainer}>
+            <Animated.View style={[styles.vocabInner, frontAnimatedStyle]}>
+              <TouchableOpacity activeOpacity={1} onPress={() => _flipCard()}>
+                <Image source={basketball} style={styles.imageVocab} />
+              </TouchableOpacity>
+            </Animated.View>
+            <Animated.View
+              style={[
+                styles.vocabInnerBack,
+                styles.vocabInner,
+                backAnimatedStyle,
+              ]}>
+              <TouchableOpacity
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+                activeOpacity={1}
+                onPress={() => _flipCard()}>
+                <Text style={styles.word}>{vocabulary}</Text>
+                <Text style={styles.spelling}>{spell}</Text>
+              </TouchableOpacity>
+            </Animated.View>
+          </View>
+          <View style={styles.buttonsContainer}>
+            <ImageButton
+              onPress={() => console.log('click back')}
+              image={backward}
+              disabled={current === 1}
+              imageStyle={{ width: 48, height: 48 }}
+            />
+            <ImageButton
+              onPress={() => console.log('click toward')}
+              image={forward}
+              disabled={current === total}
+              imageStyle={{ width: 48, height: 48 }}
+            />
+          </View>
+        </Fragment>
+      )}
     </View>
   );
 }
+
+const mapStateToProps = state => {
+  return {
+    word: state.wordReducer.word,
+    loading: state.wordReducer.loading,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null,
+)(VocabularyScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -122,9 +165,10 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.purpleText,
-    fontSize: 48,
+    fontSize: 40,
     fontWeight: 'bold',
     marginRight: 20,
+    marginTop: 10,
   },
   vocabContainer: {
     height: 520,
@@ -135,11 +179,18 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   vocabInner: {
-    height: 310,
-    width: 290,
+    height: 410,
+    width: 300,
     backgroundColor: colors.purpleCardVoc,
     borderRadius: 30,
     marginTop: 40,
+    backfaceVisibility: 'hidden',
+  },
+  vocabInnerBack: {
+    position: 'absolute',
+    top: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   imageVocab: {
     width: '100%',

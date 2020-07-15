@@ -18,12 +18,14 @@ import Screen1 from './app/screens/draft/Screen1';
 import HomePage from './app/screens/HomePage/index';
 import { DrawerContent } from './app/components/DrawerContent';
 import TopicStackScreen from './app/screens/stacks/TopicStackScreen';
+import { Provider } from 'react-redux';
+import { store } from './app/redux/store';
 
 const Drawer = createDrawerNavigator();
 
 const App = () => {
   return (
-    <>
+    <Provider store={store}>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.container}>
         <NavigationContainer>
@@ -39,7 +41,7 @@ const App = () => {
           </Drawer.Navigator>
         </NavigationContainer>
       </SafeAreaView>
-    </>
+    </Provider>
   );
 };
 

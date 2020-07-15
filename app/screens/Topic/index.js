@@ -9,11 +9,17 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
+import { getFirstWordRequest } from '../../redux/actions/word.actions';
 import ImageButton from '../../components/shared/ImageButton';
 import colors from '../../assets/styles/colors';
 import menuIcon from '../../assets/icons/menu.png';
+import { connect } from 'react-redux';
 
-export default function Topic({ navigation }) {
+function Topic({ navigation, getFirstWord }) {
+  const accessToken =
+    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiaWQiOjIsInVzZXJuYW1lIjoic3RyaW5nIiwicm9sZSI6IlVTRVIiLCJleHAiOjE1OTQ4MTUwMTd9.ezYmhJRYGheqwANm6dzT2QS5F0ZumFZDZjknId14phs';
+  const levelId = 1;
+  const userId = 2;
   const result = [
     {
       id: 1,
@@ -71,6 +77,16 @@ export default function Topic({ navigation }) {
     },
   ];
 
+  const handleClickTopicButton = async topicId => {
+    await getFirstWord({
+      accessToken,
+      levelId,
+      topicId,
+      userId,
+    });
+    await navigation.navigate('Vocabulary');
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -90,7 +106,7 @@ export default function Topic({ navigation }) {
             <View style={styles.topic}>
               <ImageButton
                 image={item.image}
-                onPress={() => navigation.navigate('Vocabulary')}
+                onPress={() => handleClickTopicButton(item.id)}
               />
               <Text style={styles.topicTitle}>{item.title}</Text>
             </View>
@@ -102,6 +118,18 @@ export default function Topic({ navigation }) {
     </View>
   );
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatch,
+    getFirstWord: params => dispatch(getFirstWordRequest(params)),
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Topic);
 
 const styles = StyleSheet.create({
   container: {
