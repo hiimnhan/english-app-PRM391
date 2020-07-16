@@ -1,11 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import colors from '../../../assets/styles/colors';
 
 export default function ImageButton(props) {
   const { image, imageStyle, containerStyle } = props;
   return (
     <TouchableOpacity
-      style={[styles.touchable, containerStyle]}
+      style={
+        !props.disabled
+          ? [styles.touchable, containerStyle]
+          : [styles.touchable, containerStyle, styles.disableButton]
+      }
       {...props}
       activeOpacity={1}>
       <View>
@@ -24,7 +29,7 @@ const styles = StyleSheet.create({
     height: 64,
     padding: 10,
     marginBottom: 20,
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -39,5 +44,8 @@ const styles = StyleSheet.create({
     height: 64,
     resizeMode: 'stretch',
     borderRadius: 30,
+  },
+  disableButton: {
+    backgroundColor: colors.gray,
   },
 });

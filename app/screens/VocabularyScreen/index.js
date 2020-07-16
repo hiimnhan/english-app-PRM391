@@ -16,15 +16,27 @@ import forward from '../../assets/icons/arrow-go.png';
 import * as lodash from 'lodash';
 
 import { connect } from 'react-redux';
+import {
+  getNextWordRequest,
+  getPreviousWordRequest,
+} from '../../redux/actions/word.actions';
 
 function VocabularyScreen(props) {
-  const { word = {}, loading, navigation } = props;
+  const accessToken =
+    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiaWQiOjIsInVzZXJuYW1lIjoic3RyaW5nIiwicm9sZSI6IlVTRVIiLCJleHAiOjE1OTQ4OTQ1NTl9.KpVyisd57H86BZqmUqxuDHjO63ErAMZq--grwrNyEo4';
+  const userId = 2;
+
+  const { word = {}, loading, navigation, getNextWord, getPrevWord } = props;
+
   const vocabulary = lodash.get(word, 'vocabulary', '');
   const spell = lodash.get(word, 'spell', '');
   const title = lodash.get(word, 'topicOfWord.name', '');
-  const current = lodash.get(word, 'id') % 10;
+  const wordId = lodash.get(word, 'id');
+
+  const current = wordId % 10;
+
   const animatedValue = new Animated.Value(0);
-  const total = 20;
+  const total = 10;
   let aValue = 0;
   animatedValue.addListener(({ value }) => {
     aValue = value;
@@ -61,6 +73,23 @@ function VocabularyScreen(props) {
         useNativeDriver: true,
       }).start();
     }
+  };
+
+  const handleClickNextButton = async () => {
+    await getNextWord({
+      accessToken,
+      userId,
+      wordId,
+    });
+    await navigation.push('Vocabulary');
+  };
+
+  const handleClickBackButton = async () => {
+    await getPrevWord({
+      accessToken,
+      wordId: wordId,
+    });
+    await navigation.push('Vocabulary');
   };
 
   return (
@@ -121,13 +150,13 @@ function VocabularyScreen(props) {
           </View>
           <View style={styles.buttonsContainer}>
             <ImageButton
-              onPress={() => console.log('click back')}
+              onPress={() => handleClickBackButton()}
               image={backward}
               disabled={current === 1}
               imageStyle={{ width: 48, height: 48 }}
             />
             <ImageButton
-              onPress={() => console.log('click toward')}
+              onPress={() => handleClickNextButton()}
               image={forward}
               disabled={current === total}
               imageStyle={{ width: 48, height: 48 }}
@@ -146,9 +175,17 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatch,
+    getNextWord: params => dispatch(getNextWordRequest(params)),
+    getPrevWord: params => dispatch(getPreviousWordRequest(params)),
+  };
+};
+
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(VocabularyScreen);
 
 const styles = StyleSheet.create({
