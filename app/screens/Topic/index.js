@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 
 function Topic({ navigation, getFirstWord }) {
   const accessToken =
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiaWQiOjIsInVzZXJuYW1lIjoic3RyaW5nIiwicm9sZSI6IlVTRVIiLCJleHAiOjE1OTQ4MTUwMTd9.ezYmhJRYGheqwANm6dzT2QS5F0ZumFZDZjknId14phs';
+    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiaWQiOjIsInVzZXJuYW1lIjoic3RyaW5nIiwicm9sZSI6IlVTRVIiLCJleHAiOjE1OTQ4OTU4NzR9.e0C-OLbgjblwGSSbG0pHlU6xppZEowJB6NTdRzXp2SE';
   const levelId = 1;
   const userId = 2;
   const result = [

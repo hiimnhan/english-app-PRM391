@@ -4,16 +4,17 @@ import { wordConstants } from '../constants/word.constants';
 import {
   getFirstWordSuccess,
   getFirstWordFailure,
+  getNextWordSuccess,
+  getNextWordFailure,
+  getPreviousWordSuccess,
+  getPreviousWordFailure,
 } from '../actions/word.actions';
 import { baseUrl } from '../../../settings';
+import { setHeader } from '../../../services';
 
 function* getFirstWord(params) {
   const { accessToken, topicId, levelId, userId } = params.params;
-  const config = {
-    headers: {
-      Authorization: 'Bearer ' + accessToken,
-    },
-  };
+  const config = setHeader(accessToken);
   try {
     const result = yield axios
       .get(
@@ -30,6 +31,44 @@ function* getFirstWord(params) {
   }
 }
 
+function* getNextWord(params) {
+  const { accessToken, userId, wordId } = params.params;
+  const config = setHeader(accessToken);
+  try {
+    const result = yield axios
+      .get(
+        `${baseUrl +
+          wordConstants.GET_NEXT_WORD_PATH}?userId=${userId}&wordId=${wordId}`,
+        config,
+      )
+      .then(res => res.data);
+    console.log('result', result);
+    const word = result.data.content[0];
+    yield put(getNextWordSuccess(word));
+  } catch (error) {
+    yield put(getNextWordFailure(error));
+  }
+}
+
+function* getPreviousWord(params) {
+  const { accessToken, wordId } = params.params;
+  const config = setHeader(accessToken);
+  try {
+    const result = yield axios
+      .get(
+        `${baseUrl + wordConstants.GET_PREVIOUS_WORD_PATH}?wordId=${wordId}`,
+        config,
+      )
+      .then(res => res.data);
+    const word = result.data.content[0];
+    yield put(getPreviousWordSuccess(word));
+  } catch (error) {
+    yield put(getPreviousWordFailure(error));
+  }
+}
+
 export default function* wordSagas() {
   yield takeEvery(wordConstants.GET_FIRST_WORD_REQUEST, getFirstWord);
+  yield takeEvery(wordConstants.GET_NEXT_WORD_REQUEST, getNextWord);
+  yield takeEvery(wordConstants.GET_PREVIOUS_WORD_REQUEST, getPreviousWord);
 }
