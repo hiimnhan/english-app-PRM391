@@ -1,9 +1,3 @@
-/* eslint-disable operator-linebreak */
-/* eslint-disable react/jsx-wrap-multilines */
-/* eslint-disable arrow-parens */
-/* eslint-disable react/jsx-boolean-value */
-/* eslint-disable global-require */
-/* eslint-disable arrow-body-style */
 import React, { useState, useContext } from 'react';
 import {
   StyleSheet,
@@ -26,7 +20,7 @@ import ButtonContainer from '../../components/ButtonContainer';
 
 const index = () => {
   const [data, setData] = useState({
-    email: '',
+    username: '',
     password: '',
     check_textInputChange: false,
     secureTextEntry: true,
@@ -38,13 +32,13 @@ const index = () => {
     if (val.length !== 0) {
       setData({
         ...data,
-        email: val,
+        username: val,
         check_textInputChange: true,
       });
     } else {
       setData({
         ...data,
-        email: val,
+        username: val,
         check_textInputChange: false,
       });
     }
@@ -71,6 +65,10 @@ const index = () => {
     });
   };
 
+  const loginHandle = (username, password) => {
+    signIn(username, password);
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -84,8 +82,8 @@ const index = () => {
         <Text style={styles.titleText}>LOGIN</Text>
       </View>
       <View style={styles.formContainer}>
-        {/* Email */}
-        <Text style={styles.formText}>Email</Text>
+        {/* Username */}
+        <Text style={styles.formText}>Username</Text>
         <View style={styles.action}>
           <Image
             style={{ ...styles.icon, ...styles.user }}
@@ -93,7 +91,8 @@ const index = () => {
           />
           <TextInput
             style={styles.textInput}
-            placeholder="Your email"
+            placeholder="Your username"
+            autoCorrect={false}
             onChangeText={val => textInputChange(val)}
           />
           {data.check_textInputChange ?
@@ -127,6 +126,7 @@ const index = () => {
           <TextInput
             style={styles.textInput}
             placeholder="Your password"
+            autoCorrect={false}
             secureTextEntry={data.secureTextEntry}
             onChangeText={val => handlePasswordChange(val)}
           />
@@ -149,7 +149,7 @@ const index = () => {
       <View>
         <ButtonContainer
           style={styles.loginButtonContainer}
-          onPress={() => signIn()}
+          onPress={() => loginHandle(data.username, data.password)}
         >
           <Text style={styles.loginText}>LET'S GO!</Text>
         </ButtonContainer>

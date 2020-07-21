@@ -3,7 +3,7 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/jsx-closing-bracket-location */
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import {
   Avatar,
@@ -16,35 +16,60 @@ import {
   Switch,
 } from 'react-native-paper';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
 import Colors from '../../assets/styles/colors';
-import Arrow from '../../assets/icons/arrow.svg';
+import { AuthContext } from '../Context';
 
 const index = (props) => {
+  const { signOut } = useContext(AuthContext);
+
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        flex: 1,
+        borderTopRightRadius: 10,
+        borderBottomRightRadius: 10,
+        backgroundColor: Colors.white,
+      }}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
-          <View style={styles.userContainer}>
-            <Avatar.Image
-              source={{
-                uri: 'https://api.adorable.io/avatars/50/abott@adorable.png',
-              }}
-              size={50}
-            />
-            <View style={styles.userInfo}>
-              <Title style={styles.title}>John Doe</Title>
-              <Caption style={styles.caption}>@j_doe</Caption>
+          <View style={styles.userInfoSection}>
+            <View style={{ flexDirection: 'row', marginTop: 15 }}>
+              <Avatar.Image
+                source={{
+                  uri: 'https://api.adorable.io/avatars/50/abott@adorable.png',
+                }}
+                size={50}
+              />
+              <View style={{ marginLeft: 15, flexDirection: 'column' }}>
+                <Title style={styles.title}>John Doe</Title>
+                <Caption style={styles.caption}>@j_doe</Caption>
+              </View>
             </View>
           </View>
 
           <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
+              icon={({ size, color }) => (
+                <EntypoIcon
+                  name="bar-graph"
+                  color={color}
+                  size={size}
+                />
+              )}
               label="Level"
               onPress={() => {
                 props.navigation.navigate('Screen1');
               }}
             />
             <DrawerItem
+              icon={({ size, color }) => (
+                <EntypoIcon
+                  name="v-card"
+                  color={color}
+                  size={size}
+                />
+              )}
               label="Profile"
               onPress={() => {
                 props.navigation.navigate('Screen2');
@@ -54,9 +79,16 @@ const index = (props) => {
         </View>
       </DrawerContentScrollView>
       <Drawer.Section style={styles.bottomDrawerSection}>
-        <Image style={styles.icon} source={Arrow} />
         <DrawerItem
+          icon={({ size, color }) => (
+            <EntypoIcon
+              name="log-out"
+              color={color}
+              size={size}
+            />
+          )}
           label="Sign Out"
+          onPress={() => signOut()}
         />
       </Drawer.Section>
     </View>
@@ -64,21 +96,16 @@ const index = (props) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    borderTopRightRadius: 10,
-    borderBottomRightRadius: 10,
-    backgroundColor: Colors.white,
-  },
   drawerContent: {
     flex: 1,
   },
-  userContainer: {
+  userInfoSection: {
     paddingLeft: 20,
     flexDirection: 'row',
     marginTop: 15,
   },
   userInfo: {
+    top: '-2%',
     marginLeft: 15,
     flexDirection: 'column',
   },
@@ -114,7 +141,7 @@ const styles = StyleSheet.create({
   },
   bottomDrawerSection: {
     marginBottom: 15,
-    borderTopColor: Colors.opalescent,
+    borderTopColor: '#f4f4f4',
     borderTopWidth: 1,
   },
   preference: {
