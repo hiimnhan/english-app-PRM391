@@ -75,13 +75,13 @@ const App = () => {
 
   // Create function to execute in other components.
   const authConText = useMemo(() => ({
-    signIn: async (userName, password) => {
+    signIn: async (userName, passWord) => {
       // setUserToken('abcd');
       // setIsLoading(false);
-      if (userName !== null && password !== null) {
+      if (userName !== null && passWord !== null) {
         axios.post('http://10.0.3.2:8090/rest-api/login', {
           username: userName,
-          password: password,
+          password: passWord,
         })
           .then(response => {
             loginState.userToken = response.data.data.accessToken;

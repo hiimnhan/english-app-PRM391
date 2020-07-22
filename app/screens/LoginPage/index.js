@@ -18,7 +18,7 @@ import HiddenEye from '../../assets/icons/hidden-eye.png';
 import Colors from '../../assets/styles/colors';
 import ButtonContainer from '../../components/ButtonContainer';
 
-const index = () => {
+const index = ({ navigation }) => {
   const [data, setData] = useState({
     username: '',
     password: '',
@@ -155,7 +155,7 @@ const index = () => {
         </ButtonContainer>
         <ButtonContainer
           style={styles.signUpButtonContainer}
-          onPress={() => console.log('Sign up')}
+          onPress={() => navigation.navigate('RegistrationPage')}
         >
           <Text style={styles.signUpText}>Don't have account? Sign up!</Text>
         </ButtonContainer>

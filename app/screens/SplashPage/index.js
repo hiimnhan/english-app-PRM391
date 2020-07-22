@@ -43,7 +43,7 @@ const SplashPage = ({ navigation }) => {
         </ButtonContainer>
         <ButtonContainer
           style={styles.signUpButtonContainer}
-          onPress={() => console.log('Registration')}
+          onPress={() => navigation.navigate('RegistrationPage')}
         >
           <Text style={styles.signUpText}>SIGN UP</Text>
         </ButtonContainer>

@@ -3,11 +3,12 @@ import { StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Topic from '../../Topic';
 import LoginPage from '../../LoginPage';
+import RegistrationPage from '../../RegistrationPage';
 import SplashPage from '../../SplashPage';
 
 const Stack = createStackNavigator();
 
-export default function TopicStackScreen({ navigation }) {
+const TopicStackScreen = () => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -18,8 +19,9 @@ export default function TopicStackScreen({ navigation }) {
       <Stack.Screen name="SplashPage" component={SplashPage} />
       <Stack.Screen name="Topic" component={Topic} />
       <Stack.Screen name="LoginPage" component={LoginPage} />
+      <Stack.Screen name="RegistrationPage" component={RegistrationPage} />
     </Stack.Navigator>
   );
-}
+};
 
-const styles = StyleSheet.create({});
+export default TopicStackScreen;
