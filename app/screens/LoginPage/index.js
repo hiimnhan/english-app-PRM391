@@ -24,6 +24,8 @@ const index = ({ navigation }) => {
     password: '',
     check_textInputChange: false,
     secureTextEntry: true,
+    isValidUser: true,
+    isValidPassword: true,
   });
 
   const { signIn } = useContext(AuthContext);
@@ -74,12 +76,14 @@ const index = ({ navigation }) => {
       <StatusBar
         barStyle="light-content"
       />
-      <Image
-        source={require('../../assets/images/learning1.png')}
-        style={styles.image}
-      />
+      <View style={styles.headerContainer}>
+        <Image
+          source={require('../../assets/images/learning1.png')}
+          style={styles.image}
+        />
+      </View>
       <View style={styles.titleContainer}>
-        <Text style={styles.titleText}>LOGIN</Text>
+        <Text style={styles.titleText}>WELCOME</Text>
       </View>
       <View style={styles.formContainer}>
         {/* Username */}
@@ -146,7 +150,7 @@ const index = ({ navigation }) => {
         </View>
       </View>
       {/* Button */}
-      <View>
+      <View style={styles.footerContainer}>
         <ButtonContainer
           style={styles.loginButtonContainer}
           onPress={() => loginHandle(data.username, data.password)}
@@ -169,9 +173,29 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
-  image: {
+  headerContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  titleContainer: {
+    flex: 1,
+    top: '3%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  formContainer: {
+    flex: 2,
+    top: '3%',
+    paddingHorizontal: 50,
+  },
+  footerContainer: {
+    flex: 1,
+    alignItems: 'center',
     top: '-7%',
-    left: '-12%',
+  },
+  image: {
+    top: '-40%',
     width: 500,
     height: 315,
     position: 'absolute',
@@ -181,10 +205,10 @@ const styles = StyleSheet.create({
     height: 20,
   },
   user: {
-    top: '3.5%',
+    top: '1.5%',
   },
   lock: {
-    top: '3.75%',
+    top: '1.5%',
   },
   tick: {
     top: '30%',
@@ -193,23 +217,16 @@ const styles = StyleSheet.create({
     top: '30%',
   },
   titleText: {
-    fontSize: 55,
+    textAlign: 'center',
+    fontSize: 35,
     color: Colors.darkGray,
-  },
-  titleContainer: {
-    top: '30%',
-    left: '32%',
-  },
-  formContainer: {
-    paddingHorizontal: 50,
-    top: '35%',
   },
   action: {
     flexDirection: 'row',
-    marginTop: 5,
+    marginTop: '1.5%',
     borderBottomWidth: 1,
     borderBottomColor: Colors.darkGray,
-    marginBottom: 30,
+    marginBottom: '9%',
   },
   textInput: {
     flex: 1,
@@ -221,20 +238,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   loginButtonContainer: {
-    top: '500%',
-    left: '18%',
+    paddingHorizontal: '25%',
     backgroundColor: Colors.pink,
-    paddingTop: 12,
   },
   signUpButtonContainer: {
-    top: '502%',
-    left: '18%',
     backgroundColor: Colors.white,
     borderWidth: 2.5,
-    paddingTop: 10,
+    paddingTop: '2.25%',
+    paddingHorizontal: '10%'
   },
   loginText: {
-    textAlign: 'center',
+    top: '25%',
     color: Colors.white,
   },
   signUpText: {

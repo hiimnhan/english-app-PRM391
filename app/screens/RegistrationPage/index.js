@@ -264,16 +264,16 @@ const index = ({ navigation }) => {
       {/* Button */}
       <View style={styles.footerContainer}>
         <ButtonContainer
-          style={styles.loginButtonContainer}
+          style={styles.signUpButtonContainer}
           onPress={() => signUpHandle(data.username, data.password)}
         >
-          <Text style={styles.loginText}>LET'S GO!</Text>
+          <Text style={styles.signUpText}>LET'S GO!</Text>
         </ButtonContainer>
         <ButtonContainer
-          style={styles.signUpButtonContainer}
+          style={styles.loginButtonContainer}
           onPress={() => navigation.navigate('LoginPage')}
         >
-          <Text style={styles.signUpText}>Turn back to sign in!</Text>
+          <Text style={styles.loginText}>Turn back to sign in!</Text>
         </ButtonContainer>
       </View>
     </View>
@@ -353,21 +353,21 @@ const styles = StyleSheet.create({
   formText: {
     fontSize: 14,
   },
-  loginButtonContainer: {
+  signUpButtonContainer: {
     paddingHorizontal: '25%',
     backgroundColor: Colors.pink,
   },
-  signUpButtonContainer: {
+  loginButtonContainer: {
     backgroundColor: Colors.white,
     borderWidth: 2.5,
-    paddingTop: 10,
+    paddingTop: '2.25%',
     paddingHorizontal: '16.5%'
   },
-  loginText: {
+  signUpText: {
     top: '25%',
     color: Colors.white,
   },
-  signUpText: {
+  loginText: {
     color: Colors.black,
   },
 });
