@@ -1,14 +1,26 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import Degree from '../../assets/images/Degree-pana.png';
+import Colors from '../../assets/styles/colors';
+import moduleName from 'react-native-li';
 
 const index = () => {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <Text>Image goes here</Text>
+        <Image
+          source={Degree}
+          style={styles.image}
+        />
       </View>
       <View style={styles.titleContainer}>
-        <Text>Title goes here</Text>
+        <View>
+
+          <View>
+
+          </View>
+        </View>
+        <Text style={styles.title}>Select Level you want to learn</Text>
       </View>
       <View style={styles.bodyContainer}>
         <Text>Body goes here</Text>
@@ -20,9 +32,10 @@ const index = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.white,
   },
   headerContainer: {
-    flex: 2,
+    flex: 3,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -35,6 +48,14 @@ const styles = StyleSheet.create({
     flex: 5,
     alignItems: 'center',
     justifyContent: 'flex-start',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+  },
+  title: {
+    fontSize: 25,
+    color: Colors.darkGray,
   },
 });
 
