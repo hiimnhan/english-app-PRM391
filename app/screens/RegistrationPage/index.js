@@ -84,12 +84,11 @@ const index = ({ navigation }) => {
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>REGISTRATION</Text>
       </View>
-      {/* <View style={styles.formContainer}> */}
-      {/* Username */}
       <View style={styles.bodyContainer}>
         <ScrollView
           style={styles.scrollViewContainer}
         >
+          {/* Username */}
           <View>
             <Text style={styles.formText}>Username</Text>
             <View style={styles.action}>
@@ -185,82 +184,85 @@ const index = ({ navigation }) => {
               </TouchableOpacity>
             </View>
           </View>
-          {/* First name */}
-          <View>
-            <Text style={styles.formText}>First name</Text>
-            <View style={styles.action}>
-              <Image
-                style={{ ...styles.icon, ...styles.user }}
-                source={User}
-              />
-              <TextInput
-                style={styles.textInput}
-                placeholder="Your firstname"
-                autoCorrect={false}
-                onChangeText={val => textInputChange(val)}
-              />
-              {data.check_textInputChange ?
-                <Animatable.View
-                  animation="bounceIn"
-                  duration={1500}
-                >
-                  <Image
-                    style={{ ...styles.icon, ...styles.tick }}
-                    source={Tick}
-                  />
-                </Animatable.View>
-                :
-                <Animatable.View
-                  animation="bounceOut"
-                  duration={500}
-                >
-                  <Image
-                    style={{ ...styles.icon, ...styles.tick }}
-                    source={Tick}
-                  />
-                </Animatable.View>}
+          {/* Name */}
+          <View style={styles.fullNameContainer}>
+            {/* First name */}
+            <View style={styles.firstNameContainer}>
+              <Text style={styles.formText}>First name</Text>
+              <View style={styles.action}>
+                <Image
+                  style={{ ...styles.icon, ...styles.user }}
+                  source={User}
+                />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Your firstname"
+                  autoCorrect={false}
+                  onChangeText={val => textInputChange(val)}
+                />
+                {data.check_textInputChange ?
+                  <Animatable.View
+                    animation="bounceIn"
+                    duration={1500}
+                  >
+                    <Image
+                      style={{ ...styles.icon, ...styles.tick }}
+                      source={Tick}
+                    />
+                  </Animatable.View>
+                  :
+                  <Animatable.View
+                    animation="bounceOut"
+                    duration={500}
+                  >
+                    <Image
+                      style={{ ...styles.icon, ...styles.tick }}
+                      source={Tick}
+                    />
+                  </Animatable.View>}
+              </View>
             </View>
-          </View>
-          {/* Last name */}
-          <View>
-            <Text style={styles.formText}>Last name</Text>
-            <View style={styles.action}>
-              <Image
-                style={{ ...styles.icon, ...styles.user }}
-                source={User}
-              />
-              <TextInput
-                style={styles.textInput}
-                placeholder="Your lastname"
-                autoCorrect={false}
-                onChangeText={val => textInputChange(val)}
-              />
-              {data.check_textInputChange ?
-                <Animatable.View
-                  animation="bounceIn"
-                  duration={1500}
-                >
-                  <Image
-                    style={{ ...styles.icon, ...styles.tick }}
-                    source={Tick}
-                  />
-                </Animatable.View>
-                :
-                <Animatable.View
-                  animation="bounceOut"
-                  duration={500}
-                >
-                  <Image
-                    style={{ ...styles.icon, ...styles.tick }}
-                    source={Tick}
-                  />
-                </Animatable.View>}
+            {/* Space */}
+            <View style={styles.spaceContainer} />
+            {/* Last name */}
+            <View style={styles.lastNameContainer}>
+              <Text style={styles.formText}>Last name</Text>
+              <View style={styles.action}>
+                <Image
+                  style={{ ...styles.icon, ...styles.user }}
+                  source={User}
+                />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Your lastname"
+                  autoCorrect={false}
+                  onChangeText={val => textInputChange(val)}
+                />
+                {data.check_textInputChange ?
+                  <Animatable.View
+                    animation="bounceIn"
+                    duration={1500}
+                  >
+                    <Image
+                      style={{ ...styles.icon, ...styles.tick }}
+                      source={Tick}
+                    />
+                  </Animatable.View>
+                  :
+                  <Animatable.View
+                    animation="bounceOut"
+                    duration={500}
+                  >
+                    <Image
+                      style={{ ...styles.icon, ...styles.tick }}
+                      source={Tick}
+                    />
+                  </Animatable.View>}
+              </View>
             </View>
           </View>
         </ScrollView>
       </View>
-
-      {/* </View> */}
       {/* Button */}
       <View style={styles.footerContainer}>
         <ButtonContainer
@@ -296,7 +298,7 @@ const styles = StyleSheet.create({
     flex: 8,
   },
   footerContainer: {
-    bottom: '1.5%',
+    bottom: '5%',
     flex: 3,
     justifyContent: 'center',
     alignItems: 'center',
@@ -304,6 +306,19 @@ const styles = StyleSheet.create({
   scrollViewContainer: {
     paddingHorizontal: '10%',
     paddingBottom: '78%',
+  },
+  fullNameContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  firstNameContainer: {
+    flex: 10,
+  },
+  spaceContainer: {
+    flex: 1,
+  },
+  lastNameContainer: {
+    flex: 10,
   },
   image: {
     top: '-3%',
@@ -323,13 +338,13 @@ const styles = StyleSheet.create({
     top: '1.5%',
   },
   tick: {
-    top: '30%',
+    top: '15%',
   },
   eye: {
-    top: '30%',
+    top: '20%',
   },
   titleText: {
-    fontSize: 25,
+    fontSize: 30,
     color: Colors.darkGray,
     textAlign: 'center',
   },
@@ -339,10 +354,10 @@ const styles = StyleSheet.create({
   },
   action: {
     flexDirection: 'row',
-    marginTop: 5,
+    marginTop: 7,
     borderBottomWidth: 1,
     borderBottomColor: Colors.darkGray,
-    marginBottom: 15,
+    marginBottom: 10,
   },
   textInput: {
     flex: 1,
