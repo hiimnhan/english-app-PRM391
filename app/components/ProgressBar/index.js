@@ -4,7 +4,6 @@ import colors from '../../assets/styles/colors';
 
 export default function ProgressBar(props) {
   const { bgColor, current, total } = props;
-
   const progress = (current / total) * 100;
   const styles = StyleSheet.create({
     container: {
@@ -26,6 +25,7 @@ export default function ProgressBar(props) {
     progressFiller: {
       height: 10,
       width: `${progress}%`,
+      // width: '100%',
       backgroundColor: bgColor,
       borderRadius: 50,
     },

@@ -8,6 +8,8 @@ import {
   getNextWordFailure,
   getPreviousWordSuccess,
   getPreviousWordFailure,
+  getWordSuccess,
+  getWordFailure,
 } from '../actions/word.actions';
 import { baseUrl } from '../../../settings';
 import { setHeader } from '../../../services';
@@ -24,8 +26,7 @@ function* getFirstWord(params) {
       )
       .then(res => res.data);
 
-    const word = result.data.content[0];
-    yield put(getFirstWordSuccess(word));
+    yield put(getFirstWordSuccess(result.data));
   } catch (error) {
     yield put(getFirstWordFailure(error));
   }
@@ -42,7 +43,6 @@ function* getNextWord(params) {
         config,
       )
       .then(res => res.data);
-    console.log('result', result);
     const word = result.data.content[0];
     yield put(getNextWordSuccess(word));
   } catch (error) {
@@ -67,8 +67,26 @@ function* getPreviousWord(params) {
   }
 }
 
+function* getWord(wordParams) {
+  const { accessToken, wordId, userId, page } = wordParams.params;
+  const config = setHeader(accessToken);
+  try {
+    const result = yield axios
+      .get(
+        `${baseUrl +
+          wordConstants.GET_WORD_PATH}?userId=${userId}&wordId=${wordId}&page=${page}`,
+        config,
+      )
+      .then(res => res.data);
+    yield put(getWordSuccess(result.data));
+  } catch (error) {
+    yield put(getWordFailure(error));
+  }
+}
+
 export default function* wordSagas() {
   yield takeEvery(wordConstants.GET_FIRST_WORD_REQUEST, getFirstWord);
   yield takeEvery(wordConstants.GET_NEXT_WORD_REQUEST, getNextWord);
   yield takeEvery(wordConstants.GET_PREVIOUS_WORD_REQUEST, getPreviousWord);
+  yield takeEvery(wordConstants.GET_WORD_REQUEST, getWord);
 }
