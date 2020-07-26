@@ -78,6 +78,8 @@ target 'EnglishApp' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
   pod 'ReactNativeART', :path => '../node_modules/@react-native-community/art'
 
+  pod 'TextToSpeech', :path => '../node_modules/react-native-tts'
+
   target 'EnglishAppTests' do
     inherit! :complete
     # Pods for testing

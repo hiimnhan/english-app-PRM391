@@ -60,3 +60,24 @@ export const getPreviousWordFailure = errors => {
     errors,
   };
 };
+
+export const getWordRequest = params => {
+  return {
+    type: wordConstants.GET_WORD_REQUEST,
+    params,
+  };
+};
+
+export const getWordSuccess = wordData => {
+  return {
+    type: wordConstants.GET_WORD_SUCCESS,
+    wordData,
+  };
+};
+
+export const getWordFailure = errors => {
+  return {
+    type: wordConstants.GET_WORD_FAILURE,
+    errors,
+  };
+};

@@ -4,14 +4,16 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import ProgressBar from '../../components/ProgressBar';
 import ImageButton from '../../components/shared/ImageButton';
 import Loading from '../../components/shared/Loading';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 
 import colors from '../../assets/styles/colors';
 
-import basketball from '../../assets/images/basketball.jpg';
+import questionMark from '../../assets/images/question-mark.png';
 
-import home1 from '../../assets/icons/home1.png';
 import backward from '../../assets/icons/arrow-back.png';
 import forward from '../../assets/icons/arrow-go.png';
+import finish from '../../assets/icons/finish.png';
 
 import * as lodash from 'lodash';
 
@@ -19,24 +21,33 @@ import { connect } from 'react-redux';
 import {
   getNextWordRequest,
   getPreviousWordRequest,
+  getWordRequest,
 } from '../../redux/actions/word.actions';
+import SpeechBox from '../../components/SpeechBox';
 
 function VocabularyScreen(props) {
   const accessToken =
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiaWQiOjIsInVzZXJuYW1lIjoic3RyaW5nIiwicm9sZSI6IlVTRVIiLCJleHAiOjE1OTQ4OTQ1NTl9.KpVyisd57H86BZqmUqxuDHjO63ErAMZq--grwrNyEo4';
+    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiaWQiOjIsInVzZXJuYW1lIjoic3RyaW5nIiwicm9sZSI6IlVTRVIiLCJleHAiOjE1OTU3NzkwOTd9.igfkQjyvh2StuG6fxJlEYGMlwdS0smo7V-fYtpqx4qU';
   const userId = 2;
 
-  const { word = {}, loading, navigation, getNextWord, getPrevWord } = props;
+  const { word = {}, loading, navigation, getPrevWord, getWord } = props;
 
-  const vocabulary = lodash.get(word, 'vocabulary', '');
-  const spell = lodash.get(word, 'spell', '');
-  const title = lodash.get(word, 'topicOfWord.name', '');
-  const wordId = lodash.get(word, 'id');
+  const vocabulary = lodash.get(word, 'content[0].vocabulary', '');
+  const spell = lodash.get(word, 'content[0].spell', '');
+  const translateVi = lodash.get(word, 'content[0].translateVi', '');
+  const imageUrl = lodash.get(word, 'content[0].image', '');
+  const title = lodash.get(word, 'content[0].topicOfWord.name', '');
 
-  const current = wordId % 10;
+  const wordId = lodash.get(word, 'content[0].id', '');
+
+  const current = lodash.get(word, 'number', '');
+  const total = lodash.get(word, 'totalPages', '');
+
+  const isFinish = lodash.get(word, 'last', false);
+  const isFirst = lodash.get(word, 'first', false);
 
   const animatedValue = new Animated.Value(0);
-  const total = 10;
+
   let aValue = 0;
   animatedValue.addListener(({ value }) => {
     aValue = value;
@@ -76,20 +87,23 @@ function VocabularyScreen(props) {
   };
 
   const handleClickNextButton = async () => {
-    await getNextWord({
+    await getWord({
       accessToken,
       userId,
       wordId,
+      page: current + 1,
     });
-    await navigation.push('Vocabulary');
+
+    if (isFinish) navigation.navigate('QuizIntro');
   };
 
   const handleClickBackButton = async () => {
-    await getPrevWord({
+    await getWord({
       accessToken,
-      wordId: wordId,
+      userId,
+      wordId,
+      page: current - 1,
     });
-    await navigation.push('Vocabulary');
   };
 
   return (
@@ -99,14 +113,14 @@ function VocabularyScreen(props) {
           style={styles.buttonBack}
           activeOpacity={1}
           onPress={() => navigation.navigate('Topic')}>
-          <Image source={home1} style={styles.buttonImage} />
+          <FontAwesomeIcon
+            icon={faAngleLeft}
+            size={36}
+            color={colors.graySmallText}
+            style={styles.buttonImage}
+          />
         </TouchableOpacity>
         <Text style={styles.title}>{title}</Text>
-        <ProgressBar
-          current={current}
-          total={total}
-          bgColor={colors.greenNormal}
-        />
       </View>
 
       {loading ? (
@@ -125,7 +139,10 @@ function VocabularyScreen(props) {
           <View style={styles.vocabContainer}>
             <Animated.View style={[styles.vocabInner, frontAnimatedStyle]}>
               <TouchableOpacity activeOpacity={1} onPress={() => _flipCard()}>
-                <Image source={basketball} style={styles.imageVocab} />
+                <Image
+                  source={imageUrl === '' ? questionMark : { uri: imageUrl }}
+                  style={styles.imageVocab}
+                />
               </TouchableOpacity>
             </Animated.View>
             <Animated.View
@@ -145,20 +162,31 @@ function VocabularyScreen(props) {
                 onPress={() => _flipCard()}>
                 <Text style={styles.word}>{vocabulary}</Text>
                 <Text style={styles.spelling}>{spell}</Text>
+                <Text style={styles.spelling}>{translateVi}</Text>
+
+                <SpeechBox
+                  containerStyles={styles.speechBox}
+                  word={vocabulary}
+                />
               </TouchableOpacity>
             </Animated.View>
           </View>
+
           <View style={styles.buttonsContainer}>
             <ImageButton
               onPress={() => handleClickBackButton()}
               image={backward}
-              disabled={current === 1}
+              disabled={isFirst}
               imageStyle={{ width: 48, height: 48 }}
+            />
+            <ProgressBar
+              current={current + 1}
+              total={total}
+              bgColor={colors.greenNormal}
             />
             <ImageButton
               onPress={() => handleClickNextButton()}
               image={forward}
-              disabled={current === total}
               imageStyle={{ width: 48, height: 48 }}
             />
           </View>
@@ -180,6 +208,7 @@ const mapDispatchToProps = dispatch => {
     dispatch,
     getNextWord: params => dispatch(getNextWordRequest(params)),
     getPrevWord: params => dispatch(getPreviousWordRequest(params)),
+    getWord: params => dispatch(getWordRequest(params)),
   };
 };
 
@@ -191,21 +220,25 @@ export default connect(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.white,
   },
   header: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
-  buttonImage: {
-    width: 48,
-    height: 48,
-    margin: 10,
+  buttonBack: {
+    marginTop: 20,
+    marginRight: 10,
   },
   title: {
-    color: colors.purpleText,
+    color: colors.purpleCardVoc,
     fontSize: 40,
     fontWeight: 'bold',
-    marginRight: 20,
-    marginTop: 10,
+    paddingRight: 50,
+    // marginTop: 10,
+    paddingTop: 20,
+    //marginLeft: 80,
+    textAlign: 'center',
   },
   vocabContainer: {
     height: 520,
@@ -252,5 +285,30 @@ const styles = StyleSheet.create({
     height: 64,
     width: 290,
     justifyContent: 'space-around',
+  },
+  buttonFinish: {
+    position: 'absolute',
+    top: 580,
+    left: '15%',
+    height: 54,
+    width: 240,
+    backgroundColor: colors.pink,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 30,
+  },
+  buttonText: {
+    color: colors.white,
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  buttonImage: {
+    width: 36,
+    height: 36,
+    marginLeft: 10,
+  },
+  speechBox: {
+    position: 'absolute',
+    top: 300,
   },
 });

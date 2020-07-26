@@ -75,6 +75,23 @@ export const wordReducer = (state = initialState, action) => {
         loading: false,
         error: action.errors.message,
       };
+    case wordConstants.GET_WORD_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case wordConstants.GET_WORD_SUCCESS:
+      return {
+        ...state,
+        word: action.wordData,
+        loading: false,
+      };
+    case wordConstants.GET_WORD_FAILURE:
+      return {
+        ...state,
+        errors: action.errors,
+        loading: false,
+      };
     default:
       return state;
   }
