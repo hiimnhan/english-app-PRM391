@@ -10,7 +10,7 @@ export default function Screen1({ navigation }) {
       <TouchableOpacity
         style={styles.button}
         title="Back to topic"
-        onPress={() => navigation.navigate('Topic')}
+        onPress={() => navigation.navigate('TopicStackScreen')}
       />
     </View>
   );

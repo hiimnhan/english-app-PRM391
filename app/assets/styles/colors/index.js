@@ -6,8 +6,10 @@ const colors = {
   blueText: '#2D6D8B',
   gray: '#E2E2E2',
   gray1: '#F8F9F9',
+  opalescent: '#f4f4f4',
   grayText: '#5D6E78',
   graySmallText: '#ABBBC0',
+  darkGray: '#828282',
   black: '#4E4E4E',
   purpleCardVoc: '#4F42D8',
   purpleText: '#4F4D66',
@@ -16,6 +18,9 @@ const colors = {
   red: '#EB002B',
   yellow: '#FCA92E',
   pink: '#E91E63',
+  lightPink: '#ff7ace',
+  mediumPink: '#ff0080',
+  solidPink: '#cc0066',
 };
 
 export default colors;
