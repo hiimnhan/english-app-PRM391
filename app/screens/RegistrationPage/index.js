@@ -9,8 +9,9 @@ import {
   StatusBar,
   ScrollView,
 } from 'react-native';
+import axios from 'axios';
 import * as Animatable from 'react-native-animatable';
-// import { AuthContext } from '../../components/Context';
+import { AuthContext } from '../../components/Context';
 import User from '../../assets/icons/user.png';
 import Tick from '../../assets/icons/tick.png';
 import Lock from '../../assets/icons/padlock.png';
@@ -23,24 +24,62 @@ const index = ({ navigation }) => {
   const [data, setData] = useState({
     username: '',
     password: '',
-    check_textInputChange: false,
-    secureTextEntry: true,
+    firstname: '',
+    lastname: '',
+    confirmpassword: '',
+    check_textUsernameChange: false,
+    check_textFirstnameChange: false,
+    check_textLastnameChange: false,
+    securePasswordEntry: true,
+    secureConfirmPasswordEntry: true,
   });
 
-  // const { signIn } = useContext(AuthContext);
+  const { signUp } = useContext(AuthContext);
 
-  const textInputChange = val => {
+  const textUsernameChange = val => {
     if (val.length !== 0) {
       setData({
         ...data,
         username: val,
-        check_textInputChange: true,
+        check_textUsernameChange: true,
       });
     } else {
       setData({
         ...data,
         username: val,
-        check_textInputChange: false,
+        check_textUsernameChange: false,
+      });
+    }
+  };
+
+  const textFirstnameChange = val => {
+    if (val.length !== 0) {
+      setData({
+        ...data,
+        firstname: val,
+        check_textFirstnameChange: true,
+      });
+    } else {
+      setData({
+        ...data,
+        firstname: val,
+        check_textFirstnameChange: false,
+      });
+    }
+  };
+
+  const textLastnameChange = val => {
+    if (val.length !== 0) {
+      setData({
+        ...data,
+        lastname: val,
+        check_textLastnameChange: true,
+      });
+    } else {
+      setData({
+        ...data,
+        lastname: val,
+        check_textLastnameChange: false,
       });
     }
   };
@@ -59,15 +98,56 @@ const index = ({ navigation }) => {
     }
   };
 
-  const updatesecureTextEntry = () => {
+  const handleConfirmPasswordChange = val => {
+    if (val.length !== 0) {
+      setData({
+        ...data,
+        confirmpassword: val,
+      });
+    } else {
+      setData({
+        ...data,
+        confirmpassword: val,
+      });
+    }
+  };
+
+  const updatesecurePasswordEntry = () => {
     setData({
       ...data,
-      secureTextEntry: !data.secureTextEntry,
+      securePasswordEntry: !data.securePasswordEntry,
     });
   };
 
-  const signUpHandle = (username, password) => {
-    // signIn(username, password);
+  const updatesecureConfirmPasswordEntry = () => {
+    setData({
+      ...data,
+      secureConfirmPasswordEntry: !data.secureConfirmPasswordEntry,
+    });
+  };
+
+  const signUpHandle = (userName, passWord, confirmpassword, firstname, lastname) => {
+    if (userName !== null &&
+      passWord !== null &&
+      confirmpassword !== null &&
+      firstname !== null &&
+      lastname !== null) {
+      axios.post('http://10.0.2.2:8090/rest-api/user/register', {
+        confirmPassword: confirmpassword,
+        email: '',
+        firstName: firstname,
+        lastName: lastname,
+        password: passWord,
+        username: userName,
+      })
+        .then(response => {
+          signUp(response.data.status, null);
+          console.log('response.data RegistrationPage :>> ', response.data.status);
+        })
+        .catch(e => {
+          console.log('signUp api error: ', e);
+        });
+    }
   };
 
   return (
@@ -100,9 +180,9 @@ const index = ({ navigation }) => {
                 style={styles.textInput}
                 placeholder="Your username"
                 autoCorrect={false}
-                onChangeText={val => textInputChange(val)}
+                onChangeText={val => textUsernameChange(val)}
               />
-              {data.check_textInputChange ?
+              {data.check_textUsernameChange ?
                 <Animatable.View
                   animation="bounceIn"
                   duration={1500}
@@ -136,13 +216,13 @@ const index = ({ navigation }) => {
                 style={styles.textInput}
                 placeholder="Your password"
                 autoCorrect={false}
-                secureTextEntry={data.secureTextEntry}
+                secureTextEntry={data.securePasswordEntry}
                 onChangeText={val => handlePasswordChange(val)}
               />
               <TouchableOpacity
-                onPress={updatesecureTextEntry}
+                onPress={updatesecurePasswordEntry}
               >
-                {data.secureTextEntry ?
+                {data.securePasswordEntry ?
                   <Image
                     style={{ ...styles.icon, ...styles.eye }}
                     source={HiddenEye}
@@ -166,13 +246,13 @@ const index = ({ navigation }) => {
                 style={styles.textInput}
                 placeholder="Confirm your password"
                 autoCorrect={false}
-                secureTextEntry={data.secureTextEntry}
-                onChangeText={val => handlePasswordChange(val)}
+                secureTextEntry={data.secureConfirmPasswordEntry}
+                onChangeText={val => handleConfirmPasswordChange(val)}
               />
               <TouchableOpacity
-                onPress={updatesecureTextEntry}
+                onPress={updatesecureConfirmPasswordEntry}
               >
-                {data.secureTextEntry ?
+                {data.secureConfirmPasswordEntry ?
                   <Image
                     style={{ ...styles.icon, ...styles.eye }}
                     source={HiddenEye}
@@ -198,9 +278,9 @@ const index = ({ navigation }) => {
                   style={styles.textInput}
                   placeholder="Your firstname"
                   autoCorrect={false}
-                  onChangeText={val => textInputChange(val)}
+                  onChangeText={val => textFirstnameChange(val)}
                 />
-                {data.check_textInputChange ?
+                {data.check_textFirstnameChange ?
                   <Animatable.View
                     animation="bounceIn"
                     duration={1500}
@@ -236,9 +316,9 @@ const index = ({ navigation }) => {
                   style={styles.textInput}
                   placeholder="Your lastname"
                   autoCorrect={false}
-                  onChangeText={val => textInputChange(val)}
+                  onChangeText={val => textLastnameChange(val)}
                 />
-                {data.check_textInputChange ?
+                {data.check_textLastnameChange ?
                   <Animatable.View
                     animation="bounceIn"
                     duration={1500}
@@ -267,7 +347,13 @@ const index = ({ navigation }) => {
       <View style={styles.footerContainer}>
         <ButtonContainer
           style={styles.signUpButtonContainer}
-          onPress={() => signUpHandle(data.username, data.password)}
+          onPress={() => signUpHandle(
+            data.username,
+            data.password,
+            data.confirmpassword,
+            data.firstname,
+            data.lastname
+          )}
         >
           <Text style={styles.signUpText}>LET'S GO!</Text>
         </ButtonContainer>

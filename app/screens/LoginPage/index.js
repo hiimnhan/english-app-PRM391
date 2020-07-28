@@ -7,7 +7,9 @@ import {
   Image,
   TouchableOpacity,
   StatusBar,
+  AsyncStorage,
 } from 'react-native';
+import axios from 'axios';
 import * as Animatable from 'react-native-animatable';
 import { AuthContext } from '../../components/Context';
 import User from '../../assets/icons/user.png';
@@ -67,8 +69,36 @@ const index = ({ navigation }) => {
     });
   };
 
-  const loginHandle = (username, password) => {
-    signIn(username, password);
+  const loginHandle = (userName, passWord) => {
+    if (userName !== null && passWord !== null) {
+      axios.post('http://10.0.2.2:8090/rest-api/login', {
+        username: userName,
+        password: passWord,
+      })
+        .then(async response => {
+          const lastestLevelId = await AsyncStorage.getItem('chosenLevelId');
+          if (lastestLevelId !== null) {
+            signIn(
+              response.data.data.accessToken,
+              response.data.data.id.toString(),
+              response.data.data.lastestLevelId.id,
+            );
+          }
+          signIn(
+            response.data.data.accessToken,
+            response.data.data.id.toString(),
+            null,
+          );
+
+          console.log('--------------------------------------');
+          console.log('response.data.data.accessToken LoginPage :>> ', response.data.data.accessToken);
+          console.log('response.data.data.id LoginPage :>> ', response.data.data.id);
+          console.log('--------------------------------------');
+        })
+        .catch(e => {
+          console.log('signIn api error: ', e);
+        });
+    }
   };
 
   return (
@@ -211,7 +241,7 @@ const styles = StyleSheet.create({
     top: '1.5%',
   },
   tick: {
-    top: '30%',
+    top: '15%',
   },
   eye: {
     top: '30%',

@@ -22,12 +22,11 @@ const SplashPage = ({ navigation }) => {
       <View style={styles.bigImage}>
         <Image
           source={require('../../assets/images/HomePageImage.png')}
-          resizeMode="contain"
           style={styles.homePageImage}
         />
         <Animatable.Image
           animation="rubberBand"
-          duration={3000}
+          duration={2575}
           source={require('../../assets/images/Enlavoka.png')}
           resizeMode="contain"
           style={styles.logoImage}
