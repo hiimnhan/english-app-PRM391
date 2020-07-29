@@ -1,17 +1,35 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Avatar, Title, Caption, Drawer } from 'react-native-paper';
+/* eslint-disable arrow-body-style */
+/* eslint-disable object-curly-newline */
+/* eslint-disable import/prefer-default-export */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/jsx-closing-bracket-location */
+import React, { useContext } from 'react';
+import { View, StyleSheet, Image } from 'react-native';
+import {
+  Avatar,
+  Title,
+  Caption,
+  Drawer,
+  Paragraph,
+  Text,
+  TouchableRipple,
+  Switch,
+} from 'react-native-paper';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
-import colors from '../../assets/styles/colors';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
+import Colors from '../../assets/styles/colors';
+import { AuthContext } from '../Context';
 
-export function DrawerContent(props) {
+const index = (props) => {
+  const { signOut } = useContext(AuthContext);
+
   return (
     <View
       style={{
         flex: 1,
         borderTopRightRadius: 10,
         borderBottomRightRadius: 10,
-        backgroundColor: colors.white,
+        backgroundColor: Colors.white,
       }}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
@@ -32,12 +50,26 @@ export function DrawerContent(props) {
 
           <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
+              icon={({ size, color }) => (
+                <EntypoIcon
+                  name="bar-graph"
+                  color={color}
+                  size={size}
+                />
+              )}
               label="Level"
               onPress={() => {
                 props.navigation.navigate('Screen1');
               }}
             />
             <DrawerItem
+              icon={({ size, color }) => (
+                <EntypoIcon
+                  name="v-card"
+                  color={color}
+                  size={size}
+                />
+              )}
               label="Profile"
               onPress={() => {
                 props.navigation.navigate('Screen2');
@@ -47,11 +79,21 @@ export function DrawerContent(props) {
         </View>
       </DrawerContentScrollView>
       <Drawer.Section style={styles.bottomDrawerSection}>
-        <DrawerItem label="Sign Out" />
+        <DrawerItem
+          icon={({ size, color }) => (
+            <EntypoIcon
+              name="log-out"
+              color={color}
+              size={size}
+            />
+          )}
+          label="Sign Out"
+          onPress={() => signOut()}
+        />
       </Drawer.Section>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   drawerContent: {
@@ -59,6 +101,17 @@ const styles = StyleSheet.create({
   },
   userInfoSection: {
     paddingLeft: 20,
+    flexDirection: 'row',
+    marginTop: 15,
+  },
+  userInfo: {
+    top: '-2%',
+    marginLeft: 15,
+    flexDirection: 'column',
+  },
+  icon: {
+    width: 20,
+    height: 20,
   },
   title: {
     fontSize: 16,
@@ -98,3 +151,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
 });
+
+export default index;

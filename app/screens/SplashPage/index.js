@@ -12,7 +12,7 @@ import * as Animatable from 'react-native-animatable';
 import Colors from '../../assets/styles/colors';
 import ButtonContainer from '../../components/ButtonContainer';
 
-const HomePage = ({ navigation }) => {
+const SplashPage = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar
@@ -22,12 +22,11 @@ const HomePage = ({ navigation }) => {
       <View style={styles.bigImage}>
         <Image
           source={require('../../assets/images/HomePageImage.png')}
-          resizeMode="contain"
           style={styles.homePageImage}
         />
         <Animatable.Image
           animation="rubberBand"
-          duration={3000}
+          duration={2575}
           source={require('../../assets/images/Enlavoka.png')}
           resizeMode="contain"
           style={styles.logoImage}
@@ -39,11 +38,11 @@ const HomePage = ({ navigation }) => {
           style={styles.loginButtonContainer}
           onPress={() => navigation.navigate('LoginPage')}
         >
-          <Text style={styles.loginText}>LOGIN</Text>
+          <Text style={styles.loginText}>SIGN IN</Text>
         </ButtonContainer>
         <ButtonContainer
           style={styles.signUpButtonContainer}
-          onPress={() => console.log('Registration')}
+          onPress={() => navigation.navigate('RegistrationPage')}
         >
           <Text style={styles.signUpText}>SIGN UP</Text>
         </ButtonContainer>
@@ -104,4 +103,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomePage;
+export default SplashPage;

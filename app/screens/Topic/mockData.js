@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 const result = [
   {
     id: 1,
